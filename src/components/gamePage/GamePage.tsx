@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import OneCard from "./OneCard";
+import { ButtonStyled } from "../../styles/styles";
+import { Link } from "react-router-dom";
 import Atom from "../../assets/Atom";
 import Apple from "../../assets/Apple";
 import Cakephp from "../../assets/Cakephp";
@@ -12,8 +14,11 @@ import Ember from "../../assets/Ember";
 import Github from "../../assets/Github";
 import Linux from "../../assets/Linux";
 import Slack from "../../assets/Slack";
+import Sketch from "../../assets/Sketch";
 import Swift from "../../assets/Swift";
+import Yarn from "../../assets/Yarn";
 import Typescript from "../../assets/Typescript";
+import ToCheck from "../../assets/ToCheck";
 
 const GamePage = () => {
   const [stateDeck, setStateDeck] = useState([
@@ -30,9 +35,15 @@ const GamePage = () => {
     { content: <Slack />, FlippedUp: false },
     { content: <Swift />, FlippedUp: false },
     { content: <Typescript />, FlippedUp: false },
+    { content: <Sketch />, FlippedUp: false },
+    { content: <Yarn />, FlippedUp: false },
   ]);
-  const [firstCard, setFirstCard] = useState(null);
+  const [firstCard, setFirstCard] = useState<number | null>(null);
   const [thirdClick, setThirdClick] = useState(0);
+  const [isEveryCardFind, setIsEveryCardFind] = useState(false);
+  const [winner, setWinner] = useState(false);
+
+  console.log(stateDeck);
 
   useEffect(() => {
     setStateDeck(
@@ -48,7 +59,7 @@ const GamePage = () => {
     );
   }, []);
 
-  const flipCardBack = (idx) => {
+  const flipCardBack = (idx: number) => {
     setStateDeck((prevState) =>
       prevState.map((e, i) => {
         if (i === idx) {
@@ -63,21 +74,16 @@ const GamePage = () => {
     );
   };
 
-  const clickCard = (idx) => {
+  const clickCard = (idx: number) => {
     if (thirdClick === 2) {
-      setTimeout(() => {
-        setThirdClick(0);
-      }, 100);
+      setThirdClick(0);
       return;
     }
     setThirdClick((prevState) => prevState + 1);
-
     if (firstCard === null) {
       setFirstCard(idx);
     } else {
-      const firstCardContent = stateDeck[firstCard].content;
-      const secondCardContent = stateDeck[idx].content;
-      if (firstCardContent === secondCardContent) {
+      if (stateDeck[firstCard].content === stateDeck[idx].content) {
         setFirstCard(null);
         setThirdClick(0);
       } else {
@@ -86,33 +92,77 @@ const GamePage = () => {
           flipCardBack(idx);
           setFirstCard(null);
           setThirdClick(0);
-        }, 500);
+        }, 1000);
       }
     }
     flipCardBack(idx);
+    const temp = stateDeck.filter((card) =>
+      card.FlippedUp === false ? card : null
+    );
+    temp.length === 1 ? setIsEveryCardFind(true) : setIsEveryCardFind(false);
+    temp.length === 1 && setWinner(true);
+    temp.length === 1 &&
+      setTimeout(() => {
+        setWinner(false);
+      }, 5000);
+  };
+
+  const restartGame = () => {
+    setFirstCard(null);
+    setThirdClick(0);
+    setIsEveryCardFind(false);
+    setStateDeck((prevState) => {
+      return prevState.map((card) => ({ ...card, FlippedUp: false }));
+    });
   };
 
   return (
-    <CardsWrapper>
-      {stateDeck.map((e, i) => {
-        return (
+    <>
+      {winner && <WinContent>Gratulacje!</WinContent>}
+      <CardsWrapper>
+        {stateDeck.map((e, i) => (
           <OneCard
-            clickCard={() => !e.FlippedUp && clickCard(i)}
+            clickCard={() => !e.FlippedUp && thirdClick !== 2 && clickCard(i)}
             FlippedUp={e.FlippedUp}
-            content={e.FlippedUp ? e.content : `empty`}
+            content={e.FlippedUp ? e.content : <ToCheck />}
           />
-        );
-      })}
-    </CardsWrapper>
+        ))}
+      </CardsWrapper>
+      {isEveryCardFind && (
+        <>
+          <ButtonStyled onClick={restartGame}>Zacznij od nowa</ButtonStyled>
+        </>
+      )}
+      <Link to="/">
+        <ButtonStyled>Powrót do strony głównej</ButtonStyled>
+      </Link>
+    </>
   );
 };
 
+const WinContent = styled.div`
+  position: absolute;
+  font-weight: bold;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: lightgreen;
+  font-size: 98px;
+  @media (max-width: 768px) {
+    font-size: 48px;
+  }
+`;
+
 export const CardsWrapper = styled.div`
-  cursor: pointer;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
-  width: 600px;
+  width: 90vw;
   margin: 0 auto;
+  margin-bottom: 25px;
+  @media (max-width: 768px) {
+    width: 320px;
+  }
 `;
 
 export default GamePage;

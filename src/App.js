@@ -1,8 +1,7 @@
-import './App.css';
-import GamePage from './components/gamePage/GamePage';
-import MainPage from "./components/mainPage/MainPage"
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
+import "./App.css";
+import GamePage from "./components/gamePage/GamePage";
+import MainPage from "./components/mainPage/MainPage";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
   return (
