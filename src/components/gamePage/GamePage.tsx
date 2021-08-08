@@ -43,8 +43,6 @@ const GamePage = () => {
   const [isEveryCardFind, setIsEveryCardFind] = useState(false);
   const [winner, setWinner] = useState(false);
 
-  console.log(stateDeck);
-
   useEffect(() => {
     setStateDeck(
       stateDeck
