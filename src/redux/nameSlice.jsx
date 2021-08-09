@@ -14,7 +14,6 @@ export const nameSlice = createSlice({
   },
 });
 
-export const { increment, decrement, incrementByAmount, setNickName } =
-  nameSlice.actions;
+export const { setNickName } = nameSlice.actions;
 
 export default nameSlice.reducer;
