@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import OneCard from "./OneCard";
 import { ButtonStyled } from "../../styles/styles";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Atom from "../../assets/Atom";
 import Apple from "../../assets/Apple";
 import Cakephp from "../../assets/Cakephp";
@@ -38,10 +38,11 @@ const GamePage = () => {
     { content: <Sketch />, FlippedUp: false },
     { content: <Yarn />, FlippedUp: false },
   ]);
-  const [firstCard, setFirstCard] = useState<number | null>(null);
+  const [firstCard, setFirstCard] = useState(null);
   const [thirdClick, setThirdClick] = useState(0);
   const [isEveryCardFind, setIsEveryCardFind] = useState(false);
   const [winner, setWinner] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     setStateDeck(
@@ -57,7 +58,7 @@ const GamePage = () => {
     );
   }, []);
 
-  const flipCardBack = (idx: number) => {
+  const flipCardBack = (idx) => {
     setStateDeck((prevState) =>
       prevState.map((e, i) => {
         if (i === idx) {
@@ -72,7 +73,7 @@ const GamePage = () => {
     );
   };
 
-  const clickCard = (idx: number) => {
+  const clickCard = (idx) => {
     if (thirdClick === 2) {
       setThirdClick(0);
       return;
@@ -102,7 +103,8 @@ const GamePage = () => {
     temp.length === 1 &&
       setTimeout(() => {
         setWinner(false);
-      }, 5000);
+        history.push("/score-page");
+      }, 1500);
   };
 
   const restartGame = () => {
