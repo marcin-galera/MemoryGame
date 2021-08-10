@@ -13,7 +13,13 @@ const ScorePage = () => {
       <StyledScores>W tę grę grali:</StyledScores>
       <ul>
         {nickName.nickName.map((e) => (
-          <StyledMapped>{e}</StyledMapped>
+          <NickAneTimeWrapper key={e.id}>
+            <StyledMapped>{e.nickName}</StyledMapped>
+            <TimeAndText>
+              Czas:
+              <StyledTime>{e.time}</StyledTime> sekund
+            </TimeAndText>
+          </NickAneTimeWrapper>
         ))}
       </ul>
       <Link to="/">
@@ -23,10 +29,27 @@ const ScorePage = () => {
   );
 };
 
+const NickAneTimeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+`;
+
+const TimeAndText = styled.div`
+  margin-left: 20px;
+`;
+
 const StyledMapped = styled.li`
+  display: inline;
   font-size: 24px;
   color: lightblue;
   list-style-type: none;
+`;
+
+const StyledTime = styled.span`
+  margin-left: 5px;
+  color: #db6e6e;
 `;
 
 const StyledScoreBoard = styled.div`

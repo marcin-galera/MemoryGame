@@ -3,11 +3,18 @@ import { ButtonStyled } from "../../styles/styles";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setNickName } from "../../redux/nameSlice";
+import { setNickName, setId } from "../../redux/nameSlice";
+import { v4 as uuidv4 } from "uuid";
 
 const MainPage = () => {
   const [firstName, setFirstName] = useState("");
   const dispatch = useDispatch();
+  let id = uuidv4();
+
+  const setPlayer = () => {
+    dispatch(setNickName({ firstName, id: id }));
+    dispatch(setId(id));
+  };
 
   return (
     <div>
@@ -22,7 +29,7 @@ const MainPage = () => {
         />
       </InputAndButtonWrapper>
       {firstName.length >= 3 && (
-        <Link onClick={() => dispatch(setNickName(firstName))} to="/game-page">
+        <Link onClick={() => setPlayer()} to="/game-page">
           <ButtonStyled>Start</ButtonStyled>
         </Link>
       )}

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 import OneCard from "./OneCard";
-import { ButtonStyled } from "../../styles/styles";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { setChangeTime } from "../../redux/nameSlice";
 import Atom from "../../assets/Atom";
 import Apple from "../../assets/Apple";
 import Cakephp from "../../assets/Cakephp";
@@ -21,6 +22,7 @@ import Typescript from "../../assets/Typescript";
 import ToCheck from "../../assets/ToCheck";
 
 const GamePage = () => {
+  const dispatch = useDispatch();
   const [stateDeck, setStateDeck] = useState([
     { content: <Apple />, FlippedUp: false },
     { content: <Atom />, FlippedUp: false },
@@ -38,13 +40,17 @@ const GamePage = () => {
     { content: <Sketch />, FlippedUp: false },
     { content: <Yarn />, FlippedUp: false },
   ]);
+  const [timerCount, setTimerCount] = useState(0);
   const [firstCard, setFirstCard] = useState(null);
   const [thirdClick, setThirdClick] = useState(0);
-  const [isEveryCardFind, setIsEveryCardFind] = useState(false);
   const [winner, setWinner] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
+    let myInterval;
+    setInterval(() => {
+      myInterval = setTimerCount((prevState) => (prevState += 1));
+    }, 1000);
     setStateDeck(
       stateDeck
         .concat(stateDeck)
@@ -56,6 +62,9 @@ const GamePage = () => {
           };
         })
     );
+    return () => {
+      clearInterval(myInterval);
+    };
   }, []);
 
   const flipCardBack = (idx) => {
@@ -98,22 +107,13 @@ const GamePage = () => {
     const temp = stateDeck.filter((card) =>
       card.FlippedUp === false ? card : null
     );
-    temp.length === 1 ? setIsEveryCardFind(true) : setIsEveryCardFind(false);
     temp.length === 1 && setWinner(true);
     temp.length === 1 &&
       setTimeout(() => {
+        dispatch(setChangeTime(timerCount));
         setWinner(false);
         history.push("/score-page");
       }, 1500);
-  };
-
-  const restartGame = () => {
-    setFirstCard(null);
-    setThirdClick(0);
-    setIsEveryCardFind(false);
-    setStateDeck((prevState) => {
-      return prevState.map((card) => ({ ...card, FlippedUp: false }));
-    });
   };
 
   return (
@@ -122,20 +122,13 @@ const GamePage = () => {
       <CardsWrapper>
         {stateDeck.map((e, i) => (
           <OneCard
+            key={i}
             clickCard={() => !e.FlippedUp && thirdClick !== 2 && clickCard(i)}
             FlippedUp={e.FlippedUp}
             content={e.FlippedUp ? e.content : <ToCheck />}
           />
         ))}
       </CardsWrapper>
-      {isEveryCardFind && (
-        <>
-          <ButtonStyled onClick={restartGame}>Zacznij od nowa</ButtonStyled>
-        </>
-      )}
-      <Link to="/">
-        <ButtonStyled>Powrót do strony głównej</ButtonStyled>
-      </Link>
     </>
   );
 };
