@@ -18,7 +18,7 @@ export const nameSlice = createSlice({
     setNickName: (state, action) => {
       state.nickName.push({
         nickName: action.payload.firstName,
-        time: 123,
+        time: 0,
         id: action.payload.id,
       });
     },

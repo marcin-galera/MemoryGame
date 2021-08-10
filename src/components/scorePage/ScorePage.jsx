@@ -7,12 +7,17 @@ import { useSelector } from "react-redux";
 const ScorePage = () => {
   const { nickName } = useSelector((state) => state);
 
+  let copyNameAndTime = [...nickName.nickName];
+  let copiedAndSortedNameAndTime = copyNameAndTime.sort(
+    (a, b) => a.time - b.time
+  );
+
   return (
     <>
       <StyledScoreBoard>ScorePage</StyledScoreBoard>
       <StyledScores>W tę grę grali:</StyledScores>
       <ul>
-        {nickName.nickName.map((e) => (
+        {copiedAndSortedNameAndTime.map((e) => (
           <NickAneTimeWrapper key={e.id}>
             <StyledMapped>{e.nickName}</StyledMapped>
             <TimeAndText>
