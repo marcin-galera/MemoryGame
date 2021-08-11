@@ -9,6 +9,10 @@ export const nameSlice = createSlice({
   name: "nickName",
   initialState,
   reducers: {
+    // Redux Toolkit allows us to write "mutating" logic in reducers. It
+    // doesn't actually mutate the state because it uses the Immer library,
+    // which detects changes to a "draft state" and produces a brand new
+    // immutable state based off those changes
     setChangeTime: (state, action) => {
       state.nickName.map((e) => e.id === state.id && (e.time = action.payload));
     },
