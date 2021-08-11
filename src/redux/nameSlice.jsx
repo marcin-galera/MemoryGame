@@ -16,11 +16,19 @@ export const nameSlice = createSlice({
       state.id = action.payload;
     },
     setNickName: (state, action) => {
-      state.nickName.push({
-        nickName: action.payload.firstName,
-        time: 0,
-        id: action.payload.id,
-      });
+      let newObj = [
+        ...state.nickName,
+        {
+          nickName: action.payload.firstName,
+          time: 0,
+          id: action.payload.id,
+        },
+      ];
+
+      return {
+        ...state,
+        nickName: newObj,
+      };
     },
   },
 });
