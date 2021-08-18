@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { ButtonStyled } from "../../styles/styles";
+import { ButtonStyled } from "../styles/styles";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setNickName, setId } from "../../redux/nameSlice";
+import { setNickName, setId } from "../redux/nameSlice";
 import { v4 as uuidv4 } from "uuid";
+import Button from "../components/Button";
 
 const MainPage = () => {
   const [firstName, setFirstName] = useState("");
@@ -30,7 +31,7 @@ const MainPage = () => {
       </InputAndButtonWrapper>
       {firstName.length >= 3 && (
         <Link onClick={() => setPlayer()} to="/game-page">
-          <ButtonStyled>Start</ButtonStyled>
+          <Button>Start</Button>
         </Link>
       )}
     </div>

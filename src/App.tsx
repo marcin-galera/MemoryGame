@@ -1,8 +1,8 @@
 import "./App.css";
-import GamePage from "./components/gamePage/GamePage";
-import MainPage from "./components/mainPage/MainPage";
+import GamePage from "./pages/GamePage";
+import MainPage from "./pages/MainPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import ScorePage from "./components/scorePage/ScorePage";
+import ScorePage from "./pages/ScorePage";
 
 function App() {
   return (

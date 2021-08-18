@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { ButtonStyled } from "../../styles/styles";
+import { ButtonStyled } from "../styles/styles";
 import { useSelector } from "react-redux";
+import Button from "../components/Button";
 
 const ScorePage = () => {
   const { nickName } = useSelector((state) => state);
@@ -28,7 +29,7 @@ const ScorePage = () => {
         ))}
       </ul>
       <Link to="/">
-        <ButtonStyled>Powrót do strony głównej</ButtonStyled>
+        <Button>Powrót do strony głównej</Button>
       </Link>
     </>
   );
