@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { ButtonStyled } from "../styles/styles";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";

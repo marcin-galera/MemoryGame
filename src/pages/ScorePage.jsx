@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { ButtonStyled } from "../styles/styles";
 import { useSelector } from "react-redux";
 import Button from "../components/Button";
 
